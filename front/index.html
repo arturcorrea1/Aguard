@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,11 +13,23 @@
             padding: 0;
             box-sizing: border-box;
         }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* remove scroll */
+            height: 100%;
+        }
+
+
         body {
             font-family: 'Libre Baskerville', serif;
             background-color: #f4f5f7;
             color: black;
         }
+
         header {
             display: flex;
             justify-content: space-between;
@@ -24,37 +37,65 @@
             padding: 20px 60px;
             background-color: #f4f5f7;
         }
+
         .logo {
             display: flex;
             align-items: center;
             font-size: 24px;
             font-weight: bold;
         }
+
         .logo img {
             width: 40px;
             margin-right: 10px;
         }
+
         nav ul {
             list-style: none;
             display: flex;
             gap: 30px;
+            transition: background-color 0.3s;
         }
+
+        nav ul li {
+            transition: background-color 0.3s;
+        }
+
+        li {
+            padding: 1vh;
+            border-radius: 4px;
+        }
+
+        nav ul li:hover {
+            background-color: black;
+            border-radius: 4px;
+            color: white;
+        }
+
+        nav ul li:hover a {
+            color: white;
+            transition: 0.3s;
+        }
+
         nav a {
             text-decoration: none;
             color: black;
             font-size: 18px;
         }
+
         .search-user {
             display: flex;
             align-items: center;
             gap: 20px;
         }
+
         .search-box {
             display: flex;
             align-items: center;
             border-bottom: 2px solid black;
             padding: 5px;
         }
+
         .search-box input {
             border: none;
             outline: none;
@@ -62,6 +103,7 @@
             font-size: 16px;
             padding: 5px;
         }
+
         .hero {
             display: flex;
             align-items: center;
@@ -69,16 +111,19 @@
             padding: 80px 60px;
             min-height: calc(100vh - 80px);
         }
+
         .text-content {
             max-width: 50%;
             text-align: left;
         }
+
         .text-content h1 {
             font-size: 80px;
             font-family: 'Playfair Display', serif;
             font-weight: 900;
             margin-bottom: 20px;
         }
+
         .text-content p {
             font-size: 20px;
             font-family: 'Libre Baskerville', serif;
@@ -86,42 +131,55 @@
             margin-bottom: 20px;
             line-height: 1.6;
         }
+
         .cta-button {
             padding: 12px 25px;
-            background: linear-gradient(135deg, #333, #666);
+            background-color: #333;
             color: white;
             border: none;
             border-radius: 25px;
             font-size: 18px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background-color 0.3s;
         }
+
         .cta-button:hover {
-            background: linear-gradient(135deg, #222, #555);
+            background-color: #555;
         }
+
+
+        .hero {
+            position: relative;
+        }
+
         .image-content img {
-            max-width: 480px;
+            position: absolute;
+            right: 0;
+            top: 0;
             height: auto;
         }
 
-        #folha{
+
+        #folha {
             height: 80vh;
             width: 50vh;
         }
 
-        #logo{
+        #logo {
             width: 10vh;
 
         }
-        #perfil-img{
+
+        #perfil-img {
             width: 5vh;
         }
     </style>
 </head>
+
 <body>
     <header>
         <div class="logo">
-            <img src="../imagens/zvgnczndgzndg.png" alt="Logo do site Aguard" id="logo">
+            <img src="../back/uploads/zvgnczndgzndg.png" alt="Logo do site Aguard" id="logo">
             Aguard
         </div>
         <nav>
@@ -129,8 +187,8 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="noticias.html">Notícias</a></li>
                 <li><a href="#">Jogos</a></li>
-                <li><a href="#">Fórum</a></li>
-                <li><a href="#">Contato</a></li>
+                <li><a href="forum.html">Fórum</a></li>
+                <li><a href="#"></a>Contato</a></li>
             </ul>
         </nav>
         <div class="search-user">
@@ -138,20 +196,29 @@
                 <input type="text" placeholder="Pesquisar">
                 🔍
             </div>
-            <img src="../imagens/image-removebg-preview.png" alt="Ícone para acessar o perfil do usuário" id="perfil-img">
+            <a href="perfil.html">
+                <img src="../back/uploads/image-removebg-preview.png" alt="Ícone para acessar o perfil do usuário"
+                    id="perfil-img">
+            </a>
         </div>
     </header>
     <main>
         <section class="hero">
             <div class="text-content">
                 <h1>A ÁGUA É VIDA</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.</p>
                 <button class="cta-button">FAÇA A DIFERENÇA</button>
             </div>
             <div class="image-content">
-                <img src="../imagens/ghjrfssfhjsfghj.png" alt="Imagem ilustrativa de uma folha com gotas de água" id="folha">
+                <img src="../back/uploads/ghjrfssfhjsfghj.png" alt="Imagem ilustrativa de uma folha com gotas de água"
+                    id="folha">
             </div>
         </section>
     </main>
 </body>
+
 </html>

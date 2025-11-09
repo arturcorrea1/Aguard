@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css"> <!-- Assumindo que há um style.css ou o estilo está embutido -->
+    <style>
+        /* Estilos básicos do site para manter a consistência */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Libre+Baskerville:wght@400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Libre Baskerville', serif;
+            background-color: #f4f5f7;
+            color: black;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background-color: #f4f5f7;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li {
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+
+        nav ul li:hover {
+            background-color: black;
+            color: white;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+        }
+
+        nav ul li:hover a {
+            color: white;
+        }
+
+        .search-user {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid black;
+            padding: 5px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        #perfil-img {
+            width: 40px;
+            border-radius: 50%;
+        }
+
+        /* Estilos específicos da Thread */
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .post-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .post-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .post-meta {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .post-content {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .comments-section h2 {
+            font-size: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .comment {
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+
+        .top-comment {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .comment-content {
+            font-size: 14px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+
+        .comment-form button {
+            background-color: black;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        } 
+        
+        .pfp {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;   
+        margin-right: 10px;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="../back/uploads/zvgnczndgzndg.png" alt="Logo do site Aguard">
+            Aguard
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="noticias.html">Notícias</a></li>
+                <li><a href="#">Jogos</a></li>
+                <li><a href="forum.html">Fórum</a></li>
+                <li><a href="#">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="search-user">
+            <div class="search-box">
+                <input type="text" placeholder="Pesquisar">
+                🔍
+            </div>
+            <a href="perfil.html">
+                <img src="../back/uploads/image-removebg-preview.png" alt="Perfil" id="perfil-img">
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="post-header">
+            <h1 id="post-title">Carregando Post...</h1>
+            <p class="post-meta">
+                <span id="post-author"></span> - <span id="post-date"></span>
+            </p>
+        </div>
+        <div class="post-content" id="post-content"></div>
+        <div id="post-image-container">
+            <!-- Imagem do post será injetada aqui -->
+        </div>
+
+        <div class="comments-section">
+            <h2>Comentários</h2>
+            <div id="comments-container">
+                <!-- Comentários serão injetados aqui pelo thread.js -->
+            </div>
+
+            <div class="comment-form">
+                <h3>Adicionar Comentário</h3>
+                <form id="comment-form">
+                    <textarea id="comment-content-input" placeholder="Escreva seu comentário..." required></textarea>
+                    <button type="submit">Comentar</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="thread.js"></script>
+</body>
+</html>

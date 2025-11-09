@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Aguard</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #ECEEEE;
+        font-family: serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Logo */
+    .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 18px;
+    }
+
+    .logo img {
+        height: 35px;
+    }
+
+    /* Container do formulário */
+    .container {
+        margin-top: 80px;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 40px;
+        margin-bottom: 30px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+    }
+
+    input {
+        border: none;
+        border-bottom: 1px solid black;
+        background: transparent;
+        outline: none;
+        font-size: 16px;
+        width: 250px;
+        padding: 5px;
+        text-align: left;
+    }
+
+    input::placeholder {
+        color: black;
+        font-size: 15px;
+    }
+
+    /* Botão */
+    button {
+        margin-top: 15px;
+        width: 150px;
+        padding: 10px;
+        border: none;
+        border-radius: 25px;
+        background: linear-gradient(to right, black, #555);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.9;
+    }
+
+    /* Link cadastro */
+    .signup-link {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .signup-link a {
+        color: black;
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+
+    <!-- Logo -->
+    <div class="logo">
+        <img src="../back/uploads/zvgnczndgzndg.png" alt="Logo Aguard">
+        <span>Aguard</span>
+    </div>
+
+    <!-- Formulário -->
+    <div class="container">
+        <h1>Login</h1>
+        <form>
+            <input type="text" placeholder="Email" required id="email">
+            <input type="password" placeholder="Senha" required id="password">
+
+            <button type="button" id="login">Logar</button>
+        </form>
+        <div class="signup-link">
+            Não possui uma conta? <a href="cadastro.html">Cadastre-se</a>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

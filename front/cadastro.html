@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro - Aguard</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #ECEEEE;
+        font-family: serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Logo */
+    .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 18px;
+    }
+
+    .logo img {
+        height: 35px;
+    }
+
+    /* Container do formulário */
+    .container {
+        margin-top: 20vh;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 80px;
+        margin-bottom: 30px;    
+        font-weight: 100;
+    }
+
+    form {
+        margin-top: 10vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+    }
+
+    input {
+        border: none;
+        border-bottom: 1px solid black;
+        background: transparent;
+        outline: none;
+        font-size: 16px;
+        width: 250px;
+        padding: 5px;
+        text-align: left;
+    }
+
+    input::placeholder {
+        color: black;
+        font-size: 15px;
+    }
+
+    .date-inputs {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    /* Botão */
+    button {
+        margin-top: 15px;
+        width: 150px;
+        padding: 10px;
+        border: none;
+        border-radius: 25px;
+        background: linear-gradient(to right, black, #555);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.9;
+    }
+
+    /* Link login */
+    .login-link {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .login-link a {
+        color: black;
+        text-decoration: underline;
+    }
+
+    .password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    }
+
+    .password-container input {
+    width: 220px;
+    padding-right: 35px; /* espaço para o ícone */
+    }
+
+    .password-container #togglePassword {
+    position: absolute;
+    right: 8px;
+    cursor: pointer;
+    user-select: none;
+    }
+</style>
+</head>
+<body>
+
+    <!-- Logo -->
+    <div class="logo">
+        <img src="../back/uploads/zvgnczndgzndg.png" alt="Logo Aguard">
+        <span>Aguard</span>
+    </div>
+
+    <!-- Formulário -->
+    <div class="container">
+        <h1>Cadastro</h1>
+        <form>
+            <input type="email" id="email" placeholder="E-mail" required>
+            <input type="text" id="username" placeholder="Nome de Usuário" required>
+            
+            <!-- Campo de senha com olhinho -->
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Senha" required>
+                <span id="togglePassword">😑</span>
+            </div>
+            
+            <button type="submit" id="cadastrar">Cadastrar</button>
+        </form>
+        <div class="login-link">
+            Já possui uma conta? <a href="login.html">Faça login</a>
+        </div>
+    </div>
+    
+    <script src="cadastro.js"></script>
+</body>
+</html>

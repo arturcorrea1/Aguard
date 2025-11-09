@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil - Aguard</title>
+    <script src="https://kit.fontawesome.com/a03d84a9ee.js" crossorigin="anonymous"></script>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Libre Baskerville', serif;
+            background-color: #f4f5f7;
+            color: black;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background-color: #f4f5f7;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo img {
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li {
+            padding: 1vh;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li:hover {
+            background-color: black;
+            color: white;
+        }
+
+        nav ul li:hover a {
+            color: white;
+            transition: 0.3s;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: black;
+            font-size: 18px;
+        }
+
+        .search-user {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid black;
+            padding: 5px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            background: none;
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        #logo {
+            width: 10vh;
+        }
+
+        #perfil-img {
+            width: 5vh;
+            border-radius: 50%;
+        }
+
+        main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .topo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .topo a i {
+            font-size: 20px;
+            color: #9d9d9d;
+            transition: 0.3s;
+        }
+
+        .topo a i:hover {
+            color: #3A81C3;
+        }
+
+        #titulo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* ======= FOTO DE PERFIL ======= */
+        .foto-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .foto-container img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #3A81C3;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .editar-foto {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #3A81C3;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .editar-foto:hover {
+            color: #2C6DA4;
+            text-decoration: underline;
+        }
+
+        /* ======= CONTEÚDO PERFIL ======= */
+        .conteudo-perfil {
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .conteudo-perfil h3 {
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .conteudo-perfil i {
+            color: #9D9D9D;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: 0.3s;
+        }
+
+        .conteudo-perfil i:hover {
+            color: #3A81C3;
+        }
+
+        .linha {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #444;
+        }
+
+        /* ======= MODAL EDITAR ======= */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            float: right;
+            font-size: 22px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 15px;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        /* ======= BOTÕES ======= */
+        button {
+            background-color: #3A81C3;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #2C6DA4;
+        }
+
+        /* ======= BOTÃO SAIR ======= */
+        #btnSair {
+            display: block;
+            margin: 40px auto;
+            background-color: transparent;
+            color: #3A81C3;
+            border: 2px solid #3A81C3;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        #btnSair:hover {
+            background-color: #3A81C3;
+            color: #fff;
+        }
+
+        /* ======= FOOTER ======= */
+        footer {
+            background-color: #fff;
+            padding: 15px 0;
+            box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+        }
+
+        .icones {
+            display: flex;
+            justify-content: space-around;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .icones2 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .icones2 i {
+            margin-bottom: 3px;
+            color: #9D9D9D;
+            transition: 0.3s;
+        }
+
+        .icones2 p {
+            color: #9D9D9D;
+            transition: 0.3s;
+        }
+
+        /* Ícone ativo */
+        .icones2.active i,
+        .icones2.active p {
+            color: #3A81C3;
+        }
+
+        .icones2:hover i,
+        .icones2:hover p {
+            color: #3A81C3;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../back/uploads/zvgnczndgzndg.png" alt="Logo do site Aguard" id="logo">
+            Aguard
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="noticias.html">Notícias</a></li>
+                <li><a href="#">Jogos</a></li>
+                <li><a href="forum.html">Fórum</a></li>
+                <li><a href="#"></a>Contato</a></li>
+            </ul>
+        </nav>
+        <div class="search-user">
+            <div class="search-box">
+                <input type="text" placeholder="Pesquisar">
+                🔍
+            </div>
+            <a href="perfil.html">
+                <img src="../back/uploads/image-removebg-preview.png" alt="Ícone para acessar o perfil do usuário"
+                    id="perfil-img">
+            </a>
+
+    </header>
+
+    <main>
+        <div class="conteudo-perfil">
+            <div class="foto-container">
+                <img id="fotoPerfil" src="./user.png" alt="Foto de perfil" />
+                <label for="inputFoto" class="editar-foto">Alterar foto</label>
+                <input type="file" id="inputFoto" accept="image/*" hidden>
+            </div>
+            <h3>Conta
+                <i id="editarPerfil" class="fa-solid fa-pen-to-square"></i>
+            </h3>
+            <br>
+            <div class="linha"> <span class="label">Nome:</span> <span id="usernameDisplay"
+                    style="color: #9D9D9D;"></span> </div>
+            <div class="linha">
+                <span class="label">E-mail:</span>
+                <span id="email" style="color: #9D9D9D;"></span>
+            </div>
+            <div class="linha">
+                <span class="label">Senha:</span>
+                <span id="senha" style="color: #9D9D9D;">********</span>
+            </div>
+        </div>
+
+        <div id="modalEditar" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3 class="centralizar">Editar Perfil</h3>
+                <form id="formEditar">
+                    <label>Nome:</label> <input type="text" id="editUsername" required><br> <label>E-mail:</label>
+                    <input type="email" id="editEmail" required><br> <br> <label>Senha (deixe em branco para não
+                        alterar):</label> <input type="password" id="editPassword"><br>
+                    <div class="centralizar">
+                        <button type="submit">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <button id="btnSair"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+    </main>
+
+    <script src="perfil.js"></script>
+</body>
+
+</html>

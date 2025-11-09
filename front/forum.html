@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aguard - Fórum</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Libre+Baskerville:wght@400&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Libre Baskerville', serif;
+    background-color: #f4f5f7;
+    color: black;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background-color: #f4f5f7;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo img {
+    width: 40px;
+    margin-right: 10px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav ul li {
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+nav ul li:hover {
+    background-color: black;
+    color: white;
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+}
+
+nav ul li:hover a {
+    color: white;
+}
+
+.search-user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid black;
+    padding: 5px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 16px;
+    padding: 5px;
+}
+
+#perfil-img {
+    width: 40px;
+    border-radius: 50%;
+}
+
+/* Fórum */
+.forum-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.forum-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.forum-header img {
+    width: 30px;
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.message img {
+    width: 50px;
+    border-radius: 50%;
+}
+
+.message-content {
+    max-width: 70%;
+    background-color: #e2e4e7;
+    padding: 10px 15px;
+    border-radius: 15px;
+}
+
+.message-content.me {
+    background-color: #d1ecf1;
+    align-self: flex-end;
+}
+
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.input-container input {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+}
+
+.input-container button {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.input-container button:hover {
+    background-color: #333;
+}
+
+/* Criar Post */
+.create-post-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.create-post-container h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: black;
+    text-align: center;
+}
+
+#create-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#create-post-form input[type="text"],
+#create-post-form textarea {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#create-post-form input[type="text"]:focus,
+#create-post-form textarea:focus {
+    border-color: black;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+}
+
+#create-post-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+#create-post-form label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#create-post-form input[type="file"] {
+    font-size: 14px;
+}
+
+#create-post-form button {
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#create-post-form button:hover {
+    background-color: #333;
+    transform: scale(1.03);
+}
+
+.titulo-post {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 0.4rem;
+  transition: color 0.2s ease;
+}
+
+a:hover .titulo-post {
+  color: #007bff;
+}
+
+.bottom-post {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #666;
+  background: #f9f9f9;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.post-card {
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.timestamp-post {
+  font-style: italic;
+}
+
+.comment-count-post {
+  font-weight: 500;
+  color: #007bff;
+}
+
+.comment-count-post:hover {
+  text-decoration: underline;
+}
+
+#posts-container{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+  justify-items: center;
+  padding: 2rem 1rem;
+  list-style: none;
+  margin: 0;
+}
+
+.post-card{
+  width: 100%;
+  max-width: 600px; /* todos terão no máximo essa largura */
+  word-wrap: break-word; /* quebra palavras longas */
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+a{
+    text-decoration: none;
+}
+
+</style>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <img src="../back/uploads/zvgnczndgzndg.png" alt="Logo do site Aguard">
+        Aguard
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="noticias.html">Notícias</a></li>
+            <li><a href="forum.html">Fórum</a></li>
+        </ul>
+    </nav>
+                    <a href="perfil.html">
+                <img src="../back/uploads/image-removebg-preview.png" alt="Ícone para acessar o perfil do usuário"
+                    id="perfil-img">
+            </a>
+    </div>
+</header>
+
+</main>
+    <script src="forum.js"></script>
+    <div class="create-post-container">
+            <h3>Criar Novo Post</h3>
+            <form id="create-post-form">
+                <input type="text" id="post-title" placeholder="Título do Post" required>
+                <textarea id="post-content" placeholder="Conteúdo do Post" required></textarea>
+                <label for="post-image">Imagem (Opcional):</label>
+                <input type="file" id="post-image" accept="image/*">
+                <button type="submit">Postar</button>
+            </form>
+        </div>
+
+        <ul id="posts-container">
+            <!-- posts -->
+        </ul>
