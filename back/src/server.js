@@ -84,6 +84,36 @@ app.post('/login', async (req, res) => {
   }
 });
 
+  app.get('/usuario/:id', async(req,res) =>{
+    const {id} = req.params;
+    
+  try{
+    const [rows] = await connection
+      .promise()
+      .query('SELECT * FROM usuario WHERE id = ?', [id]);
+
+      if (rows.length === 0)
+      return res.json({ success: false, message: 'Usuário não encontrado.' });
+
+      const user = rows[0];
+
+      res.json({
+      success: true,
+      message: 'Sucesso ao carregar dados do usuário',
+     user: {
+       id: user.id,
+      username: user.username,
+      email: user.email,
+      profile_picture_url: user.profile_picture_url,
+     }
+    });
+  } catch (err) {
+    console.error('Erro ao carregar dados do usuário.', err);
+    res.status(500).json({ success: false, message: 'Erro no servidor.' });
+  }
+
+  })
+
 // editar
 app.put('/usuario/editar/:id', async (req, res) => {
   const { id } = req.params;

@@ -25,6 +25,7 @@ async function carregarPerfil() {
 
   if (data.success) {
     const user = data.user;
+    console.log(data)
     usernameDisplay.textContent = user.username;
     emailDisplay.textContent = user.email;
     fotoEl.src = user.profile_picture_url || "./user.png";
@@ -83,7 +84,7 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
     document.getElementById("modalEditar").style.display = "none";
     localStorage.setItem("email", email)
     localStorage.setItem("username", username)
-    localStorage.setItem("passowrd", password)
+    localStorage.setItem("password", password)
     carregarPerfil(); 
   }
 });
