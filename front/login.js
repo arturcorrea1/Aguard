@@ -15,16 +15,15 @@ login.addEventListener('click', async () => {
         localStorage.setItem("id", result.id);
         localStorage.setItem("username", result.username);
         localStorage.setItem("email", result.email);
-  
+        localStorage.setItem("profile_picture_url", result.profile_picture_url || '');
+        localStorage.setItem("tipo", result.tipo || 'padrao');
+
         alert("Login bem-sucedido!");
         window.location.href = "index.html";
-      } 
+      }
   
     } catch (error) {
       console.error('Erro ao fazer login:', error);
       mensagem2.style.display = '';
     }
   });
-
-  
-

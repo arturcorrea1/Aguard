@@ -17,6 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.posts.forEach(post => {
                     const postElement = document.createElement('li');
                     postElement.classList.add('row');
+                    
+                    const userTipo = localStorage.getItem('tipo');
+                    const userId = localStorage.getItem('id');
+                    
+                    // Mostrar botões de editar/excluir para admins ou qualquer usuário
+                    const showEditDelete = userTipo === 'admininistrador' || userTipo === 'padrao';
+                    
                     postElement.innerHTML = `
                     <div class="post-card">
                         <a href="thread.html?id=${post.id}">
@@ -26,7 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <p class="comment-count-post">Ver comentários</p>
                             </div>
                         </a>
-                        </div>
+                        ${showEditDelete ? `
+                            <div class="post-actions" style="margin-top: 10px;">
+                                <button onclick="editarPost(${post.id}, '${post.titulo}', '${post.conteudo.replace(/'/g, "\\'")}')">Editar</button>
+                                <button onclick="excluirPost(${post.id})" style="background-color: #dc3545;">Excluir</button>
+                            </div>
+                        ` : ''}
+                    </div>
                     `;
                     postsContainer.appendChild(postElement);
                 });
@@ -101,3 +114,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
     carregarPosts();
 });
+
+// Função para editar post
+window.editarPost = async (postId, titulo, conteudo) => {
+    const novoTitulo = prompt('Editar título:', titulo);
+    const novoConteudo = prompt('Editar conteúdo:', conteudo);
+    
+    if (novoTitulo === null || novoConteudo === null) return;
+    
+    const userId = localStorage.getItem('id');
+    const userTipo = localStorage.getItem('tipo');
+    
+    try {
+        const res = await fetch(`http://localhost:3001/forum/post/${postId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                titulo: novoTitulo, 
+                conteudo: novoConteudo, 
+                usuario_id: userId,
+                user_tipo: userTipo
+            }),
+        });
+        const data = await res.json();
+        
+        alert(data.message);
+        if (data.success) {
+            location.reload();
+        }
+    } catch (error) {
+        console.error('Erro ao editar post:', error);
+        alert('Erro ao editar post. Tente novamente.');
+    }
+};
+
+// Função para excluir post
+window.excluirPost = async (postId) => {
+    if (!confirm('Tem certeza que deseja excluir este post?')) return;
+    
+    const userId = localStorage.getItem('id');
+    const userTipo = localStorage.getItem('tipo');
+    
+    try {
+        const res = await fetch(`http://localhost:3001/forum/post/${postId}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                usuario_id: userId,
+                user_tipo: userTipo
+            }),
+        });
+        const data = await res.json();
+        
+        alert(data.message);
+        if (data.success) {
+            location.reload();
+        }
+    } catch (error) {
+        console.error('Erro ao excluir post:', error);
+        alert('Erro ao excluir post. Tente novamente.');
+    }
+};

@@ -29,7 +29,7 @@ const upload = multer({ storage });
 
 // cadastro
 app.post('/cadastrar', async (req, res) => {
-  const { email, username, password } = req.body;
+  const { email, username, password, tipo = 'padrao' } = req.body;
 
   try {
     const [exist] = await connection
@@ -42,8 +42,8 @@ app.post('/cadastrar', async (req, res) => {
         .json({ success: false, message: 'E-mail já cadastrado.' });
 
     const hash = await bcrypt.hash(password, 10);
-    const sql = 'INSERT INTO usuario (email, username, password) VALUES (?, ?, ?)';
-    await connection.promise().query(sql, [email, username, hash]);
+    const sql = 'INSERT INTO usuario (email, username, password, tipo) VALUES (?, ?, ?, ?)';
+    await connection.promise().query(sql, [email, username, hash, tipo]);
 
     res.json({ success: true, message: 'Usuário cadastrado com sucesso!' });
   } catch (err) {
@@ -77,6 +77,7 @@ app.post('/login', async (req, res) => {
       username: user.username,
       email: user.email,
       profile_picture_url: user.profile_picture_url,
+      tipo: user.tipo,
     });
   } catch (err) {
     console.error('Erro no login:', err);
@@ -226,6 +227,159 @@ app.post('/forum/comentario', async (req, res) => {
   } catch (err) {
     console.error('Erro ao adicionar comentário:', err);
     res.status(500).json({ success: false, message: 'Erro ao adicionar comentário.' });
+  }
+});
+
+// editar post
+app.put('/forum/post/:id', async (req, res) => {
+  const { id } = req.params;
+  const { titulo, conteudo, usuario_id, user_tipo } = req.body;
+
+  try {
+    // Busca o post para verificar permissões
+    const [postRows] = await connection.promise().query(
+      'SELECT p.*, u.tipo FROM post p JOIN usuario u ON p.usuario_id = u.id WHERE p.id = ?', 
+      [id]
+    );
+
+    if (postRows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Post não encontrado.' });
+    }
+
+    const post = postRows[0];
+
+    // Verifica permissões: admin pode editar qualquer post, usuário pode editar qualquer post
+    if (user_tipo !== 'admininistrador' && user_tipo !== 'padrao') {
+      return res.status(403).json({ success: false, message: 'Sem permissão para editar este post.' });
+    }
+
+    const sql = 'UPDATE post SET titulo = ?, conteudo = ? WHERE id = ?';
+    await connection.promise().query(sql, [titulo, conteudo, id]);
+
+    res.json({ success: true, message: 'Post editado com sucesso!' });
+  } catch (err) {
+    console.error('Erro ao editar post:', err);
+    res.status(500).json({ success: false, message: 'Erro ao editar post.' });
+  }
+});
+
+// excluir post
+app.delete('/forum/post/:id', async (req, res) => {
+  const { id } = req.params;
+  const { usuario_id, user_tipo } = req.body;
+
+  try {
+    // Busca o post para verificar permissões
+    const [postRows] = await connection.promise().query(
+      'SELECT p.*, u.tipo FROM post p JOIN usuario u ON p.usuario_id = u.id WHERE p.id = ?', 
+      [id]
+    );
+
+    if (postRows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Post não encontrado.' });
+    }
+
+    const post = postRows[0];
+
+    // Verifica permissões: admin pode excluir qualquer post, usuário pode excluir qualquer post
+    if (user_tipo !== 'admininistrador' && user_tipo !== 'padrao') {
+      return res.status(403).json({ success: false, message: 'Sem permissão para excluir este post.' });
+    }
+
+    // Primeiro exclui os comentários do post
+    await connection.promise().query('DELETE FROM comentario WHERE post_id = ?', [id]);
+    
+    // Depois exclui o post
+    await connection.promise().query('DELETE FROM post WHERE id = ?', [id]);
+
+    res.json({ success: true, message: 'Post excluído com sucesso!' });
+  } catch (err) {
+    console.error('Erro ao excluir post:', err);
+    res.status(500).json({ success: false, message: 'Erro ao excluir post.' });
+  }
+});
+
+// listar todos os usuários (apenas para admin)
+app.get('/admin/usuarios', async (req, res) => {
+  const { user_tipo } = req.query;
+
+  if (user_tipo !== 'admininistrador') {
+    return res.status(403).json({ success: false, message: 'Acesso negado. Apenas administradores.' });
+  }
+
+  try {
+    const sql = 'SELECT id, email, username, profile_picture_url, created_at, tipo FROM usuario ORDER BY created_at DESC';
+    const [rows] = await connection.promise().query(sql);
+    res.json({ success: true, usuarios: rows });
+  } catch (err) {
+    console.error('Erro ao listar usuários:', err);
+    res.status(500).json({ success: false, message: 'Erro ao listar usuários.' });
+  }
+});
+
+// editar usuário (apenas para admin)
+app.put('/admin/usuario/:id', async (req, res) => {
+  const { id } = req.params;
+  const { username, email, tipo, user_tipo } = req.body;
+
+  if (user_tipo !== 'admininistrador') {
+    return res.status(403).json({ success: false, message: 'Acesso negado. Apenas administradores.' });
+  }
+
+  try {
+    const campos = [];
+    const valores = [];
+
+    if (username) {
+      campos.push('username = ?');
+      valores.push(username);
+    }
+    if (email) {
+      campos.push('email = ?');
+      valores.push(email);
+    }
+    if (tipo) {
+      campos.push('tipo = ?');
+      valores.push(tipo);
+    }
+
+    if (campos.length === 0)
+      return res.json({ success: false, message: 'Nada para atualizar.' });
+
+    valores.push(id);
+    const sql = `UPDATE usuario SET ${campos.join(', ')} WHERE id = ?`;
+    await connection.promise().query(sql, valores);
+
+    res.json({ success: true, message: 'Usuário editado com sucesso!' });
+  } catch (err) {
+    console.error('Erro ao editar usuário:', err);
+    res.status(500).json({ success: false, message: 'Erro ao editar usuário.' });
+  }
+});
+
+// excluir usuário (apenas para admin)
+app.delete('/admin/usuario/:id', async (req, res) => {
+  const { id } = req.params;
+  const { user_tipo } = req.body;
+
+  if (user_tipo !== 'admininistrador') {
+    return res.status(403).json({ success: false, message: 'Acesso negado. Apenas administradores.' });
+  }
+
+  try {
+    // Primeiro exclui os comentários do usuário
+    await connection.promise().query('DELETE FROM comentario WHERE usuario_id = ?', [id]);
+    
+    // Depois exclui os posts do usuário
+    await connection.promise().query('DELETE FROM post WHERE usuario_id = ?', [id]);
+    
+    // Por fim exclui o usuário
+    await connection.promise().query('DELETE FROM usuario WHERE id = ?', [id]);
+
+    res.json({ success: true, message: 'Usuário excluído com sucesso!' });
+  } catch (err) {
+    console.error('Erro ao excluir usuário:', err);
+    res.status(500).json({ success: false, message: 'Erro ao excluir usuário.' });
   }
 });
 
