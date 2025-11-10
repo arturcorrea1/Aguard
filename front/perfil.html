@@ -277,6 +277,24 @@
             color: #fff;
         }
 
+                #btnDelete {
+            display: block;
+            margin: 40px auto;
+            background-color: transparent;
+            color: #ff0000;
+            border: 2px solid #ff0000;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        #btnDelete:hover {
+            background-color: #ff0000;
+            color: #fff;
+        }
+
+
         /* ======= FOOTER ======= */
         footer {
             background-color: #fff;
@@ -320,6 +338,10 @@
         .icones2:hover i,
         .icones2:hover p {
             color: #3A81C3;
+        }
+
+        .delete-button{
+            color: red;
         }
     </style>
 </head>
@@ -383,6 +405,7 @@
         </div>
 
         <button id="btnSair"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+        <button id="btnDelete"><i class="fa-solid fa-right-from-bracket, delete-button" onclick="excluir()"></i> Excluir Conta</button>
     </main>
 
     <script src="perfil.js"></script>

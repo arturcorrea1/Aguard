@@ -151,6 +151,18 @@ app.put('/usuario/editar/:id', async (req, res) => {
   }
 });
 
+// excluir
+      app.delete('/deletar/:id', (req, res) => {
+        const {id} = req.params;
+        const query = 'DELETE FROM usuario WHERE id = ?';
+        connection.query(query, [id], (err) => {
+          if (err) {
+            return res.status(500).json({ success: false, message: 'Erro ao remover' });
+          }
+          res.json({ success: true, message: 'Removido com sucesso!' });
+        });
+      });
+
 // posts
 app.post('/forum/post', async (req, res) => {
   const { titulo, conteudo, usuario_id, imagem_url } = req.body;

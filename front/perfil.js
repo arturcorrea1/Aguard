@@ -4,6 +4,7 @@ const emailDisplay = document.getElementById("email");
 const fotoEl = document.getElementById("fotoPerfil");
 const fileInput = document.getElementById("inputFoto");
 
+document.getElementById("btnDelete").addEventListener("click", excluir)
 
 document.getElementById("btnSair").addEventListener("click", () => {
   localStorage.removeItem("id");
@@ -89,6 +90,24 @@ document.getElementById("formEditar").addEventListener("submit", async (e) => {
   }
 });
 
+async function excluir() {
+    const response = await fetch(`http://localhost:3001/deletar/${userId}`, {
+        method: 'DELETE'
+    });
+
+    const result = await response.json();
+    if (result.success) {
+        alert('Perfil excluído com sucesso!')
+    } else {
+        alert(result.message || 'Erro ao excluir o perfil!');
+    } 
+      localStorage.removeItem("id");
+  localStorage.removeItem("email");
+  localStorage.removeItem("username");
+  localStorage.removeItem("userData");
+  window.location.href = "login.html";
+}
+
 document.getElementById("editarPerfil").onclick = function () {
   document.getElementById("modalEditar").style.display = "block";
 }
@@ -104,3 +123,62 @@ window.onclick = function (event) {
 }
 
 carregarPerfil();
+
+
+// função de adm e usuario
+
+    // window.addEventListener("load", () => {
+    //     if(localStorage.getItem("informacoes")) {   
+    //         let html = document.getElementById('informacoes')
+    //         let dados = JSON.parse(localStorage.getItem('informacoes'))
+
+    //         if(dados.usuario === 'Administrador'){
+    //             document.getElementById('cadastrar_produto').style.display = 'block'
+    //         } else {
+    //             document.getElementById('cadastrar_produto').style.display = 'none'
+    //         }
+
+    //         html.innerHTML = `<div style="display: flex; flex-direction: column; align-items: end">
+    //             nome: ${dados.nome} email: ${dados.email} Perfil: ${dados.usuario}
+    //          </div>`
+
+    //         html.style.display = 'block'
+
+    //     }
+    // })
+  
+  
+
+//   listagem
+
+//   document.addEventListener("DOMContentLoaded", () => {
+//     listar()
+// });
+
+//   async function listar() {
+//     const tbody = document.getElementById("tbody");
+
+//     if (!tbody) {
+//         console.error("Erro: Elemento tbody não encontrado!");
+//         return;
+//     }
+
+//     const response = await fetch("http://localhost:3000/listar");
+//     const data = await response.json();
+//     tbody.innerHTML = ""; // Limpa a tabela antes de adicionar os novos itens
+
+//     data.pessoal.forEach((pessoal) => {
+//         const row = document.createElement("tr");
+//         row.innerHTML = `
+//             <td>${pessoal.id}</td>
+//             <td>${pessoal.nome}</td>
+//             <td>${pessoal.tipo}</td>
+//             <td>${pessoal.telefone}</td>
+//             <td>${pessoal.placa}</td>
+//             <td>${pessoal.apartamento}</td>
+//             <td class="delete-btn" onclick="excluir('${pessoal.id}')">✖</td>
+//             <td class="editar-btn" onclick="abrirModal('${pessoal.nome}', '${pessoal.tipo}', '${pessoal.telefone}', '${pessoal.placa}', '${pessoal.apartamento}')">Editar</td>
+//         `;
+//         tbody.appendChild(row);
+//     });
+// }
